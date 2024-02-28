@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Store {
 	private Map<Integer,Product> inventory;
-	private static int currID = 1000;
 
 	Store() {
 		inventory = new HashMap<Integer,Product>();
@@ -24,45 +23,70 @@ public class Store {
 			cost = sc.nextDouble();
 			sc.nextLine();
 
-			Product item = new Product(name,stock,cost,currID);
-			inventory.put(currID,item);
-			currID++;	
+			Product item = new Product(name,stock,cost,productID);
+			inventory.put(productID,item);	
 		}
 	}
 	
 	public void displayStock() {
 		for (Product item: inventory.values()) {
 			item.printDetails();
+			System.out.println();
 		}	
+	}
+
+	public void purchaseProduct(int productID, int stock) {
+		if (!inventory.containsKey(productID)) {
+			System.out.println("Product not found!");
+			return;
+		}
+
+		Product item = inventory.get(productID);
+		item.makePurchase(stock);
 	}
 
 	public static void main(String args[]) {
 		Store manager = new Store();
 		Scanner sc = new Scanner(System.in);
-		int option = 1;
-		while (option >= 1 && option <= 2) {
+		int option = 1, productID, stock;;
+		while (option >= 1 && option <= 3) {
 			System.out.println(
 				"INVENTORY MANAGEMENT SYSTEM");	
 			System.out.println(
 				"1. Add Stock");
 			System.out.println(
 				"2. View Current Inventory");
-			System.out.println("Enter option: ");
+			System.out.println(
+				"3. Make Purchase");
+			System.out.print("Enter option: ");
 			option = sc.nextInt();
 			sc.nextLine();
 
 			switch (option) {
 				case 1:
-					int productID, stock;
 					System.out.print("Enter product ID: ");
 					productID = sc.nextInt();
 					sc.nextLine();
+					System.out.print("Enter stock to add: ");
 					stock = sc.nextInt();
 					sc.nextLine();
 					manager.addStock(productID, stock);
+					break;
 				case 2:
 					manager.displayStock();		
+					break;
+				case 3:	
+					System.out.print("Enter product ID: ");
+					productID = sc.nextInt();
+					sc.nextLine();
+					System.out.print("Enter stock to buy: ");
+					stock = sc.nextInt();
+					sc.nextLine();	
+					manager.purchaseProduct(productID,stock);
+				default:
+					break;
 			}
+			System.out.println();
 		}
 	}
 }						
