@@ -32,7 +32,7 @@ public class Product {
 		this.stock += extraStock;
 	}
 
-	public bool makePurchase(int bought) {
+	public boolean makePurchase(int bought) {
 		if (bought > this.stock) {
 			System.out.println("Not sufficient stock");
 			return false;

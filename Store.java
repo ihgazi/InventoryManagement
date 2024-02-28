@@ -1,15 +1,14 @@
-import Product;
 import java.util.*;
 
 public class Store {
-	prviate Map<int,Product> inventory;
+	private Map<Integer,Product> inventory;
 	private static int currID = 1000;
 
 	Store() {
-		inventory = new HashMap<int,Product>();
+		inventory = new HashMap<Integer,Product>();
 	}
 
-	public addStock(int productID, int stock) {
+	public void addStock(int productID, int stock) {
 		if (inventory.containsKey(productID)) {
 			Product item = inventory.get(productID);
 			item.addStock(stock);
@@ -23,15 +22,18 @@ public class Store {
 			name = sc.nextLine();
 			System.out.print("Enter cost of product: ");
 			cost = sc.nextDouble();
+			sc.nextLine();
 
-			Product item = new Product(name,cost,stock,currID);
+			Product item = new Product(name,stock,cost,currID);
 			inventory.put(currID,item);
 			currID++;	
 		}
 	}
 	
-	public displayStock() {
-				
+	public void displayStock() {
+		for (Product item: inventory.values()) {
+			item.printDetails();
+		}	
 	}
 
 	public static void main(String args[]) {
@@ -44,7 +46,7 @@ public class Store {
 			System.out.println(
 				"1. Add Stock");
 			System.out.println(
-				"2. View Current Stock");
+				"2. View Current Inventory");
 			System.out.println("Enter option: ");
 			option = sc.nextInt();
 			sc.nextLine();
@@ -53,17 +55,14 @@ public class Store {
 				case 1:
 					int productID, stock;
 					System.out.print("Enter product ID: ");
-					product = sc.nextInt();
+					productID = sc.nextInt();
 					sc.nextLine();
 					stock = sc.nextInt();
 					sc.nextLine();
-					addStock(productID, stock);
+					manager.addStock(productID, stock);
 				case 2:
-						
+					manager.displayStock();		
 			}
 		}
 	}
-}			
-					
-					
-}			
+}						
