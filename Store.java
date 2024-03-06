@@ -2,8 +2,9 @@ import java.util.*;
 
 public class Store {
 	private Map<Integer,Product> inventory;
-
+	private static Logger log;
 	Store() {
+		log = new Logger();
 		inventory = new HashMap<Integer,Product>();
 	}
 
@@ -42,14 +43,16 @@ public class Store {
 		}
 
 		Product item = inventory.get(productID);
-		item.makePurchase(stock);
+		if (item.makePurchase(stock)) {
+			log.writeData(productID,stock);
+		}
 	}
 
 	public static void main(String args[]) {
 		Store manager = new Store();
 		Scanner sc = new Scanner(System.in);
-		int option = 1, productID, stock;;
-		while (option >= 1 && option <= 3) {
+		int option = 1, productID, stock;
+		while (option >= 1 && option <= 4) {
 			System.out.println(
 				"INVENTORY MANAGEMENT SYSTEM");	
 			System.out.println(
@@ -58,6 +61,8 @@ public class Store {
 				"2. View Current Inventory");
 			System.out.println(
 				"3. Make Purchase");
+			System.out.println(
+				"4. View Purchase History");
 			System.out.print("Enter option: ");
 			option = sc.nextInt();
 			sc.nextLine();
@@ -73,6 +78,7 @@ public class Store {
 					manager.addStock(productID, stock);
 					break;
 				case 2:
+					System.out.println("STORE INVENTORY");
 					manager.displayStock();		
 					break;
 				case 3:	
@@ -83,6 +89,10 @@ public class Store {
 					stock = sc.nextInt();
 					sc.nextLine();	
 					manager.purchaseProduct(productID,stock);
+					break;
+				case 4:
+					System.out.println("PURCHASE HISTORY");
+					log.readData();
 				default:
 					break;
 			}
